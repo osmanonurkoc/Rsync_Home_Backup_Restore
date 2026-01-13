@@ -78,7 +78,7 @@ You can customize exactly what gets skipped by editing the `exclude_list.json` f
     "%UserProfile%\\Documents\\LargeLogFile.txt"
   ]
 }
-
+```
 
 ## ⚠️ Disclaimer
 This tool modifies system files (`hosts`) and network settings. While it includes safety features (backups and smart merging), **use it at your own risk**. 
@@ -90,4 +90,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 *Created by [@osmanonurkoc](https://github.com/osmanonurkoc)*
-
