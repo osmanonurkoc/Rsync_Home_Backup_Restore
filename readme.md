@@ -11,6 +11,8 @@ A lightweight, powerful, and intelligent backup tool for Windows, written entire
 ## 📸 Screenshots
 
 ![Application Interface](images/screenshot1.png) ![Application Interface](images/screenshot2.png) ![Application Interface](images/screenshot3.png) ![Application Interface](images/screenshot4.png)
+
+
 *A smart, incremental backup utility for Windows built with PowerShell & WPF. Features NTFS hard-linking for storage efficiency, auto-dark mode, and a modern GUI.*
 
 ## ✨ Key Features
