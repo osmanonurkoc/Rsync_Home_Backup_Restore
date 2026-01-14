@@ -16,7 +16,7 @@ $Params = @{
     Company     = "Osman Onur Koç"
     Product     = "Windows Backup"
     Copyright   = "www.osmanonurkoc.com"
-    Version     = "1.0.0.0"
+    Version     = "11.4.0.0"
     NoConsole   = $true
     STA         = $true  # Critical for WPF UI (Single Threaded Apartment)
 }
