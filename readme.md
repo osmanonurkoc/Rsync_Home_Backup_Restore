@@ -88,9 +88,16 @@ You can customize exactly what gets skipped by editing the `exclude_list.json` f
 ```
 
 ## ⚠️ Disclaimer
-This tool modifies system files (`hosts`) and network settings. While it includes safety features (backups and smart merging), **use it at your own risk**. 
-- Always ensure you have a system restore point if you are unsure.
-- VPNs or other security software might conflict with DNS settings.
+
+This script is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. 
+
+**Use at your own risk.**
+
+The author is not responsible for any data loss, file corruption, or system damage that may occur while using this script. Since this tool involves file manipulation (backup and restore), it is strongly recommended that you:
+1.  **Review the code** to understand what it does before running it.
+2.  **Test the script** in a safe, non-critical environment first.
+3.  Ensure you have a separate backup of your critical data before performing a restore operation.
+
 
 ## 📄 License
 This project is licensed under the [MIT License](LICENSE).
