@@ -10,7 +10,19 @@ A lightweight, powerful, and intelligent backup tool for Windows, written entire
 
 ## 📸 Screenshots
 
-![Application Interface](images/screenshot1.png) ![Application Interface](images/screenshot2.png) ![Application Interface](images/screenshot3.png) ![Application Interface](images/screenshot4.png)
+<p align="center">
+  <img src="images/screenshot1.png" width="85%" alt="Backup list" />
+  <br/>
+  <img src="images/screenshot2.png" width="85%" alt="Backup process" />
+  <br/>
+  <img src="images/screenshot3.png" width="85%" alt="Restore list" />
+  <br/>
+  <img src="images/screenshot4.png" width="85%" alt="Restore location" />
+  <br/>
+  <img src="images/screenshot5.png" width="85%" alt="Diff list" />
+  <br/>
+  <img src="images/screenshot6.png" width="85%" alt="Restore process" />
+</p>
 
 *A smart, incremental backup utility for Windows built with PowerShell & WPF. Features NTFS hard-linking for storage efficiency, auto-dark mode, and a modern GUI.*
 
@@ -23,6 +35,7 @@ A lightweight, powerful, and intelligent backup tool for Windows, written entire
 * **🎨 Modern UI & Theme Engine:** Automatically detects your Windows theme (Light/Dark mode) and adjusts the interface in real-time.
 * **🛡️ Advanced Exclusion System:** Powerful JSON-based exclusion support. Ignore files by extension, specific folders, global folder names, or specific file paths.
 * **📂 Restore Manager:** Easily browse, rename, delete, or restore previous backups directly from the interface.
+* **📋 Total transparency over your backup process. The tool generates a comprehensive **Difference List** to show you exactly what's happening:
 
 ## 🚀 Getting Started
 
