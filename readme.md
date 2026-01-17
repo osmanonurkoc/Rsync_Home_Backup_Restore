@@ -11,17 +11,17 @@ A lightweight, powerful, and intelligent backup tool for Windows, written entire
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="images/screenshot1.png" width="60%" alt="Backup list" />
+  <img src="images/screenshot1.png" width="45%" alt="Backup list" />
   <br/>
-  <img src="images/screenshot2.png" width="60%" alt="Backup process" />
+  <img src="images/screenshot2.png" width="45%" alt="Backup process" />
   <br/>
-  <img src="images/screenshot3.png" width="60%" alt="Restore list" />
+  <img src="images/screenshot3.png" width="45%" alt="Restore list" />
   <br/>
-  <img src="images/screenshot4.png" width="60%" alt="Restore location" />
+  <img src="images/screenshot4.png" width="45%" alt="Restore location" />
   <br/>
-  <img src="images/screenshot5.png" width="60%" alt="Diff list" />
+  <img src="images/screenshot5.png" width="45%" alt="Diff list" />
   <br/>
-  <img src="images/screenshot6.png" width="60%" alt="Restore process" />
+  <img src="images/screenshot6.png" width="45%" alt="Restore process" />
 </p>
 
 *A smart, incremental backup utility for Windows built with PowerShell & WPF. Features NTFS hard-linking for storage efficiency, auto-dark mode, and a modern GUI.*
