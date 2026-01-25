@@ -1,4 +1,4 @@
-# 📂 Home Backup & Restore Utility (v11.5)
+# 📂 Home Backup & Restore Utility (v11.6)
 
 A lightweight, powerful, and intelligent backup tool for Windows, written entirely in PowerShell with a modern WPF GUI. It features **"Time Machine" style incremental backups** using NTFS Hard Links to save disk space while keeping every backup snapshot fully accessible.
 

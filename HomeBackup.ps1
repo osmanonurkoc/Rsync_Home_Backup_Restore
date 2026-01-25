@@ -64,7 +64,6 @@ $CurrentTheme = Get-SystemTheme
     <Window.Resources>
         <Style TargetType="{x:Type ScrollBar}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Width" Value="8"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ScrollBar}">
@@ -87,6 +86,14 @@ $CurrentTheme = Get-SystemTheme
                                 </Track.Thumb>
                             </Track>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="Width" Value="8"/>
+                            </Trigger>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter Property="Height" Value="8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -383,7 +390,7 @@ $CurrentTheme = Get-SystemTheme
             </Grid>
 
             <Grid Name="OverlayPreview" Grid.RowSpan="5" Background="{DynamicResource OverlayBrush}" Visibility="Collapsed">
-                <Border Margin="30" Background="{DynamicResource BgBrush}" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <Border Margin="5" Background="{DynamicResource BgBrush}" CornerRadius="8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                     <Grid Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -396,11 +403,15 @@ $CurrentTheme = Get-SystemTheme
                         <TextBlock Grid.Row="1" Text="Please review changes. Files highlighted in red will be DELETED from the destination to match the snapshot state."
                                    Foreground="{DynamicResource SubTextBrush}" FontSize="12" Margin="0,5,0,15" TextWrapping="Wrap"/>
 
-                        <ListView Name="ListPreview" Grid.Row="2" Background="{DynamicResource SurfaceBrush}" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Foreground="{DynamicResource TextBrush}">
+                        <ListView Name="ListPreview" Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
+                                  BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}"
+                                  Foreground="{DynamicResource TextBrush}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Action" Width="100" DisplayMemberBinding="{Binding Action}"/>
-                                    <GridViewColumn Header="Path" Width="300" DisplayMemberBinding="{Binding Path}"/>
+                                    <GridViewColumn Header="Path" Width="Auto" DisplayMemberBinding="{Binding Path}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -591,35 +602,48 @@ $RadioRestore.Add_Checked({
 function Test-IsExcluded {
     param($Item)
 
-    # 1. Hardcoded System Files (Same logic as Backup)
+    # 1. Hardcoded System Files (Fast check for performance)
     if ($Item.Name -in @("desktop.ini", "thumbs.db", ".DS_Store")) { return $true }
     if ($Item.Name -like "*.megaignore" -or $Item.Name -like "*.part" -or $Item.Name -like "*.tmp" -or $Item.Name -like "~$*") { return $true }
 
-    # 2. Config: Ignored Files (Exact Path Match)
+    # 2. Config: Exact Full Path Match (IgnoredFiles)
     if ($Item.FullName -in $ExcludeData.IgnoredFiles) { return $true }
 
-    # 3. Config: Specific Folders (Start Path Match)
+    # 3. Config: Specific Folder Paths (IgnoredSpecificFolders)
+    # Checks if the path starts with a specific ignored path (e.g., Desktop\VirtualSpace)
     foreach ($Spec in $ExcludeData.IgnoredSpecificFolders) {
         if ($Item.FullName.StartsWith($Spec, [System.StringComparison]::OrdinalIgnoreCase)) { return $true }
     }
 
-    if ($Item.PSIsContainer) {
-        # 4. Config: Folder Names
-        if ($Item.Name -in $ExcludeData.IgnoredSystemFolders) { return $true }
-        if ($Item.Name -in $ExcludeData.GlobalFolders) { return $true }
+    # =========================================================================
+    # FIX: Path Segment Analysis (Parent Folder Check)
+    # Splits the full path into parts. If ANY part of the path (e.g., ".git", "node_modules")
+    # matches a globally excluded folder, the item returns TRUE (Excluded).
+    # This prevents files inside .git from being marked as "extraneous" during restore.
+    # =========================================================================
+    $PathParts = $Item.FullName.Split([System.IO.Path]::DirectorySeparatorChar)
+
+    foreach ($Part in $PathParts) {
+        if ($Part -in $ExcludeData.GlobalFolders) { return $true }
+        if ($Part -in $ExcludeData.IgnoredSystemFolders) { return $true }
     }
-    else {
-        # 5. Config: Extensions
+    # =========================================================================
+
+    # 4. File Extension Checks (Files only)
+    if (-not $Item.PSIsContainer) {
+        # Global Extensions
         if ($Item.Extension -in $ExcludeData.GlobalExtensions) { return $true }
 
-        # 6. Config: Folder-Specific Extensions
+        # Folder-Specific Extensions (e.g., .exe in Downloads)
         if ($Item.Directory) {
             $ParentName = $Item.Directory.Name
+            # Check if this parent folder has specific rules in config
             if ($ExcludeData.FolderSpecific.PSObject.Properties.Match($ParentName).Count -gt 0) {
                 if ($Item.Extension -in $ExcludeData.FolderSpecific.$ParentName) { return $true }
             }
         }
     }
+
     return $false
 }
 
